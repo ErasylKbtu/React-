@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Task 0 — JavaScript Refresher</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="progress-bar"><div class="progress-bar-fill" id="progressFill"></div></div>
+
+<header class="hero">
+  <p class="kicker">Task 0 — before we start working with React</p>
+  <h1 class="title">JavaScript, revisited.</h1>
+  <p>Eleven small problems and a final exercise, run live in this page. Each section shows the actual output alongside a short explanation of what it's testing and what I noticed while solving it.</p>
+  <div class="hero-console"><span class="l1">// this page computes every result below</span><br><span class="l2">console.log("ready");</span></div>
+</header>
+
+<nav class="toc" aria-label="Table of contents">
+  <ol>
+    <li><a href="#t1">1. Variables &amp; data types</a></li>
+    <li><a href="#t2">2. Arrays</a></li>
+    <li><a href="#t3">3. Arrays of objects</a></li>
+    <li><a href="#t4">4. Objects</a></li>
+    <li><a href="#t5">5. Values &amp; references</a></li>
+    <li><a href="#t6">6. Functions</a></li>
+    <li><a href="#t7">7. Functions as values</a></li>
+    <li><a href="#t8">8. Scope</a></li>
+    <li><a href="#t9">9. Closure</a></li>
+    <li><a href="#t10">10. Destructuring, spread &amp; rest</a></li>
+    <li><a href="#t11">11. Optional chaining &amp; defaults</a></li>
+    <li><a href="#tf">Final task</a></li>
+  </ol>
+</nav>
+
+<div class="wrap">
+
+<section class="task" id="t1">
+  <div class="task-head"><span class="task-num">01</span><h2 class="task-title">Variables and data types</h2></div>
+  <div class="task-body">
+    <p>A student record, printed with its types, plus a look at <code>null</code> vs <code>undefined</code> and which values are primitive vs reference.</p>
+    <div class="editor">
+      <span class="tab tab-name-wrap" data-file="task1.js"></span>
+      <pre class="code" id="code1"></pre>
+    </div>
+    <div class="block-label result">console</div>
+    <pre class="console" id="out1"></pre>
+    <dl class="qa">
+      <dt>let vs const</dt>
+      <dd><code>let</code> can be reassigned after declaration; <code>const</code> cannot be reassigned, though if it holds an object or array, the contents of that object/array can still be mutated — only the variable binding itself is locked.</dd>
+      <dt>typeof null</dt>
+      <dd>Returns <code>"object"</code>. This is a long-standing bug baked into the language since its first version — <code>null</code> is not actually an object, but the check can never be fixed without breaking existing code.</dd>
+      <dt>Primitive types</dt>
+      <dd><code>string</code>, <code>number</code>, <code>boolean</code>, <code>null</code>, <code>undefined</code>, <code>bigint</code>, and <code>symbol</code>. Everything else — objects, arrays, functions — is a reference type.</dd>
+    </dl>
+    <div class="insight"><span class="tag">noticed</span>Arrays and plain objects both report <code>typeof</code> as <code>"object"</code> — you need <code>Array.isArray()</code> to actually tell them apart.</div>
+  </div>
+</section>
+
+<section class="task" id="t2">
+  <div class="task-head"><span class="task-num">02</span><h2 class="task-title">Arrays</h2></div>
+  <div class="task-body">
+    <p>Working the same array <code>[3, 7, 2, 10, 5]</code> through <code>map</code>, <code>filter</code>, <code>find</code>, <code>reduce</code>, and <code>includes</code>, without mutating it.</p>
+    <div class="editor">
+      <span class="tab tab-name-wrap" data-file="task2.js"></span>
+      <pre class="code" id="code2"></pre>
+    </div>
+    <div class="block-label result">console</div>
+    <pre class="console" id="out2"></pre>
+    <div class="insight"><span class="tag">noticed</span><code>map</code> and <code>filter</code> always return brand-new arrays, so the original stays untouched by construction — that's why they're the default tool over a manual <code>for</code> loop with <code>push</code>.</div>
+  </div>
+</section>
+
+<section class="task" id="t3">
+  <div class="task-head"><span class="task-num">03</span><h2 class="task-title">Arrays of objects</h2></div>
+  <div class="task-body">
+    <p>Four students, queried and reshaped in different ways — filtering, mapping, finding, and reducing to an average — all without touching the source objects.</p>
+    <div class="editor">
+      <span class="tab tab-name-wrap" data-file="task3.js"></span>
+      <pre class="code" id="code3"></pre>
+    </div>
+    <div class="block-label result">console</div>
+    <pre class="console" id="out3"></pre>
+    <div class="insight"><span class="tag">noticed</span>Finding the "highest grade" student is really a <code>reduce</code> that keeps a running "best so far" — the same shape as summing, just with a comparison instead of addition.</div>
+  </div>
+</section>
+
+<section class="task" id="t4">
+  <div class="task-head"><span class="task-num">04</span><h2 class="task-title">Objects</h2></div>
+  <div class="task-body">
+    <p>A user object with a nested address, read, updated, and taken apart with plain and nested destructuring, including a rename.</p>
+    <div class="editor">
+      <span class="tab tab-name-wrap" data-file="task4.js"></span>
+      <pre class="code" id="code4"></pre>
+    </div>
+    <div class="block-label result">console</div>
+    <pre class="console" id="out4"></pre>
+    <div class="insight"><span class="tag">noticed</span>Destructuring with a rename — <code>{ name: userName }</code> — reads backwards from how it looks: the source property comes first, the new local name second.</div>
+  </div>
+</section>
+
+<section class="task" id="t5">
+  <div class="task-head"><span class="task-num">05</span><h2 class="task-title">Values and references</h2></div>
+  <div class="task-body">
+    <p><code>copy = original</code> doesn't copy an object — it copies the reference. Mutating <code>copy</code> mutates <code>original</code> too. Shallow spread fixes the top level but not nested objects.</p>
+    <div class="editor">
+      <span class="tab tab-name-wrap" data-file="task5.js"></span>
+      <pre class="code" id="code5"></pre>
+    </div>
+    <div class="block-label result">console</div>
+    <pre class="console" id="out5"></pre>
+    <dl class="qa">
+      <dt>Why does changing copy.score change original.score?</dt>
+      <dd>Objects are reference types. <code>original</code> and <code>copy</code> both point at the same location in memory — assignment copies the pointer, not the data.</dd>
+      <dt>Why does the spread copy still leak the nested address?</dt>
+      <dd>The spread operator only copies one level deep. The top-level keys are new, but <code>address</code> itself is still the same nested object reference shared by both copies — a proper fix needs a deep clone, e.g. <code>structuredClone()</code> or spreading each nested level by hand.</dd>
+    </dl>
+  </div>
+</section>
+
+<section class="task" id="t6">
+  <div class="task-head"><span class="task-num">06</span><h2 class="task-title">Functions</h2></div>
+  <div class="task-body">
+    <p>Five small utilities, written as a normal function declaration and then rewritten as an arrow function to compare the syntax.</p>
+    <div class="editor">
+      <span class="tab tab-name-wrap" data-file="task6.js"></span>
+      <pre class="code" id="code6"></pre>
+    </div>
+    <div class="block-label result">console</div>
+    <pre class="console" id="out6"></pre>
+    <div class="insight"><span class="tag">noticed</span>Beyond syntax, the real difference is <code>this</code> binding: a normal function gets its own <code>this</code> when called, while an arrow function inherits <code>this</code> from where it was defined. It doesn't show up in these pure math examples, but it matters a lot once these are used as object methods or callbacks.</div>
+  </div>
+</section>
+
+<section class="task" id="t7">
+  <div class="task-head"><span class="task-num">07</span><h2 class="task-title">Functions as values</h2></div>
+  <div class="task-body">
+    <p><code>add</code> and <code>multiply</code> passed into a <code>calculate</code> function as arguments — treating a function like any other value.</p>
+    <div class="editor">
+      <span class="tab tab-name-wrap" data-file="task7.js"></span>
+      <pre class="code" id="code7"></pre>
+    </div>
+    <div class="block-label result">console</div>
+    <pre class="console" id="out7"></pre>
+    <dl class="qa">
+      <dt>Can functions be stored in variables?</dt>
+      <dd>Yes — functions are first-class values in JavaScript, just like numbers or strings.</dd>
+      <dt>Can functions be passed to other functions?</dt>
+      <dd>Yes — a function taken as an argument (like <code>operation</code> here) is usually called a callback, or a higher-order function pattern when the outer function also returns one.</dd>
+      <dt>add vs add()</dt>
+      <dd><code>add</code> is a reference to the function itself, which is what you pass around. <code>add()</code> actually invokes it and evaluates to its return value.</dd>
+    </dl>
+  </div>
+</section>
+
+<section class="task" id="t8">
+  <div class="task-head"><span class="task-num">08</span><h2 class="task-title">Scope</h2></div>
+  <div class="task-body">
+    <p>The same name, <code>message</code>, redeclared at the global, function, and block level, to see which one wins where. Also: what happens when <code>var</code>, <code>let</code>, and <code>const</code> declared inside a block are accessed from outside it.</p>
+    <div class="editor">
+      <span class="tab tab-name-wrap" data-file="task8.js"></span>
+      <pre class="code" id="code8"></pre>
+    </div>
+    <div class="block-label result">console</div>
+    <pre class="console" id="out8"></pre>
+    <dl class="qa">
+      <dt>Global scope</dt>
+      <dd>Declared outside any function or block; visible everywhere in the file (or module).</dd>
+      <dt>Function scope</dt>
+      <dd>A variable declared inside a function is only visible inside that function — <code>var</code> respects only this boundary, not block boundaries.</dd>
+      <dt>Block scope</dt>
+      <dd>A variable declared with <code>let</code> or <code>const</code> inside <code>{ }</code> — an <code>if</code>, a loop, any braces — only exists inside those braces.</dd>
+      <dt>var vs let vs const</dt>
+      <dd><code>var</code> is function-scoped and hoisted with an <code>undefined</code> placeholder; <code>let</code> and <code>const</code> are block-scoped and stay in a "temporal dead zone" until their line runs, which is why accessing them early throws instead of silently returning <code>undefined</code>.</dd>
+    </dl>
+  </div>
+</section>
+
+<section class="task" id="t9">
+  <div class="task-head"><span class="task-num">09</span><h2 class="task-title">Closure</h2></div>
+  <div class="task-body">
+    <p>A <code>createCounter()</code> factory whose returned function remembers its own <code>count</code> between calls, plus a <code>createAdder(value)</code> that "locks in" a value for later use.</p>
+    <div class="editor">
+      <span class="tab tab-name-wrap" data-file="task9.js"></span>
+      <pre class="code" id="code9"></pre>
+    </div>
+    <div class="block-label result">console</div>
+    <pre class="console" id="out9"></pre>
+    <div class="note">The inner function keeps a live reference to the variables in its enclosing scope even after <code>createCounter</code> or <code>createAdder</code> has already returned. Each call to the outer function creates a fresh, separate scope — so two counters never share a <code>count</code>.</div>
+  </div>
+</section>
+
+<section class="task" id="t10">
+  <div class="task-head"><span class="task-num">10</span><h2 class="task-title">Destructuring, spread and rest</h2></div>
+  <div class="task-body">
+    <p>Pulling values out of arrays and objects, building new copies with extra fields via spread, and a <code>sum(...numbers)</code> that accepts any number of arguments via rest.</p>
+    <div class="editor">
+      <span class="tab tab-name-wrap" data-file="task10.js"></span>
+      <pre class="code" id="code10"></pre>
+    </div>
+    <div class="block-label result">console</div>
+    <pre class="console" id="out10"></pre>
+    <div class="note"><strong>Spread</strong> expands a collection out into individual elements — used when calling/building something. <strong>Rest</strong> does the opposite: it gathers many individual arguments back into a single array — used when defining something. Same three dots, opposite direction, and the position (inside a literal/call vs. inside a parameter list) is what tells them apart.</div>
+  </div>
+</section>
+
+<section class="task" id="t11">
+  <div class="task-head"><span class="task-num">11</span><h2 class="task-title">Optional chaining and default values</h2></div>
+  <div class="task-body">
+    <p>Some users have an address, some don't. Reaching for <code>user.address.city</code> directly throws on the ones that don't — <code>?.</code> and <code>??</code> fix that safely.</p>
+    <div class="editor">
+      <span class="tab tab-name-wrap" data-file="task11.js"></span>
+      <pre class="code" id="code11"></pre>
+    </div>
+    <div class="block-label result">console</div>
+    <pre class="console" id="out11"></pre>
+    <div class="insight"><span class="tag">noticed</span><code>||</code> falls back on <em>any</em> falsy value, so <code>0</code>, <code>""</code>, and <code>false</code> get silently replaced even though they're legitimate, intentional values. <code>??</code> only falls back on <code>null</code> or <code>undefined</code>, which is almost always what you actually mean by "not specified."</div>
+  </div>
+</section>
+
+<section class="task" id="tf">
+  <div class="task-head"><span class="task-num">—</span><h2 class="task-title">Final task</h2></div>
+  <div class="task-body">
+    <p>Five students, each with an array of grades, run through a small set of composable helpers — <code>getAverage</code>, <code>getStudentAverage</code>, <code>getPassedStudents</code>, <code>getStudentNames</code>, <code>findStudent</code>, and <code>getTopStudent</code> — then reshaped into a clean summary array, all without mutating the source data.</p>
+    <div class="editor">
+      <span class="tab tab-name-wrap" data-file="final.js"></span>
+      <pre class="code" id="codef"></pre>
+    </div>
+    <div class="block-label result">console</div>
+    <pre class="console" id="outf"></pre>
+    <div class="insight"><span class="tag">noticed</span>Almost the whole exercise reduces to composing <code>map</code>, <code>filter</code>, and <code>reduce</code> around one small <code>getAverage</code> helper — build the smallest reusable piece first, then combine it.</div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  Task 0 — JavaScript Refresher. All output above is generated live by this page's own script, not hard-coded.
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
