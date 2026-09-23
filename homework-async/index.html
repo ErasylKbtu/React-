@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JavaScript Runtime and Async</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>JavaScript Runtime and Async</h1>
+
+        <p>
+            Practice project for Closures, Promises, async/await,
+            Event Loop, Tasks and Microtasks.
+        </p>
+    </header>
+
+
+
+    <section class="section">
+
+        <h2>Task Manager</h2>
+
+        <p class="description">
+            Each task uses a closure to keep its execution counter private.
+            Loading is simulated using Promise and setTimeout.
+        </p>
+
+
+        <div class="tasks">
+
+
+            <div class="task-card">
+
+                <h3>Load Users</h3>
+
+                <p>
+                    Status:
+                    <span id="users-status" class="status waiting">
+                        Waiting
+                    </span>
+                </p>
+
+                <p>
+                    Execution count:
+                    <span id="users-count">0</span>
+                </p>
+
+                <p>
+                    Loading time:
+                    <span id="users-time">-</span>
+                </p>
+
+                <button id="users-run">
+                    Run Task
+                </button>
+
+                <button
+                    id="users-reset"
+                    class="secondary-button"
+                >
+                    Reset
+                </button>
+
+            </div>
+
+
+
+            <div class="task-card">
+
+                <h3>Load Posts</h3>
+
+                <p>
+                    Status:
+                    <span id="posts-status" class="status waiting">
+                        Waiting
+                    </span>
+                </p>
+
+                <p>
+                    Execution count:
+                    <span id="posts-count">0</span>
+                </p>
+
+                <p>
+                    Loading time:
+                    <span id="posts-time">-</span>
+                </p>
+
+                <button id="posts-run">
+                    Run Task
+                </button>
+
+                <button
+                    id="posts-reset"
+                    class="secondary-button"
+                >
+                    Reset
+                </button>
+
+            </div>
+
+
+
+            <div class="task-card">
+
+                <h3>Load Comments</h3>
+
+                <p>
+                    Status:
+                    <span id="comments-status" class="status waiting">
+                        Waiting
+                    </span>
+                </p>
+
+                <p>
+                    Execution count:
+                    <span id="comments-count">0</span>
+                </p>
+
+                <p>
+                    Loading time:
+                    <span id="comments-time">-</span>
+                </p>
+
+                <button id="comments-run">
+                    Run Task
+                </button>
+
+                <button
+                    id="comments-reset"
+                    class="secondary-button"
+                >
+                    Reset
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="controls">
+
+            <button id="run-all">
+                Run All Tasks
+            </button>
+
+            <button id="reset-all" class="secondary-button">
+                Reset All
+            </button>
+
+        </div>
+
+
+        <p id="all-result" class="result-message"></p>
+
+    </section>
+
+
+
+    <section class="section">
+
+        <h2>Sequential vs Concurrent Execution</h2>
+
+        <p class="description">
+            Sequential execution waits for each task before starting
+            the next one. Concurrent execution starts all tasks together.
+        </p>
+
+
+        <div class="controls">
+
+            <button id="run-sequential">
+                Run Sequential
+            </button>
+
+            <button id="run-concurrent">
+                Run Concurrent
+            </button>
+
+        </div>
+
+
+        <div class="comparison">
+
+            <div class="result-box">
+
+                <h3>Sequential</h3>
+
+                <p id="sequential-result">
+                    Not started
+                </p>
+
+            </div>
+
+
+            <div class="result-box">
+
+                <h3>Concurrent</h3>
+
+                <p id="concurrent-result">
+                    Not started
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="explanation">
+
+            <strong>Why are the results different?</strong>
+
+            <p>
+                In sequential execution, each task waits until the
+                previous task has finished. Because of this, the total
+                time is approximately the sum of all task loading times.
+            </p>
+
+            <p>
+                In concurrent execution, all tasks start almost at the
+                same time. The total time is therefore close to the time
+                of the slowest task.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <section class="section">
+
+        <h2>Event Loop Demo</h2>
+
+        <p class="description">
+            This example demonstrates the Call Stack,
+            Microtask Queue, Task Queue and Event Loop.
+        </p>
+
+
+        <div class="event-grid">
+
+            <div class="result-box">
+
+                <h3>Expected Output</h3>
+
+                <pre id="expected-output">1. Synchronous start
+2. Async function start
+3. Synchronous end
+4. Promise callback 1
+5. Async/await continuation
+6. Promise callback 2
+7. Timer 1
+8. Timer 2</pre>
+
+            </div>
+
+
+            <div class="result-box">
+
+                <h3>Actual Output</h3>
+
+                <pre id="actual-output">Click "Run Event Loop Demo"</pre>
+
+            </div>
+
+        </div>
+
+
+        <button id="event-loop-button">
+            Run Event Loop Demo
+        </button>
+
+
+        <div class="explanation">
+
+            <h3>Execution Order</h3>
+
+            <p>
+                <strong>1. Call Stack:</strong>
+                JavaScript first executes all synchronous code.
+            </p>
+
+            <p>
+                <strong>2. Microtask Queue:</strong>
+                Promise callbacks and async/await continuations
+                are executed after the Call Stack becomes empty.
+            </p>
+
+            <p>
+                <strong>3. Task Queue:</strong>
+                setTimeout callbacks wait in the Task Queue.
+            </p>
+
+            <p>
+                <strong>4. Event Loop:</strong>
+                The Event Loop moves callbacks to the Call Stack
+                when JavaScript is ready to execute them.
+            </p>
+
+        </div>
+
+    </section>
+
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
